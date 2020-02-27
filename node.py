@@ -11,6 +11,12 @@ def getNodeList():
     node_list = ast.literal_eval(d)['nodes']
   return node_list
 
+def getConfig():
+    with open('config','r') as f:
+        d = f.readline()
+        config = ast.literal_eval(d)['config']
+    return config
+
 def validateEstablishedNodeCandidate(fqdn, ns01, ns02):
     try:
         socket.inet_aton(ns01)
@@ -28,7 +34,17 @@ def establishEstablishedNodeCandidate(established_nodes, fqdn, ns01, ns02):
 def run():
     mandatory_NS_count = 2
     node_list = getNodeList()
+
+    config = getConfig()
     established_nodes = []
+    try:
+        if config['node_type'] == 'main_node':
+            established_nodes = [[config['self_FQDN'], '0.0.0.0', config['comp_node']]]
+        elif config['node_type'] == 'comp_node':
+            established_nodes = [[config['self_FQDN'], config['main_node'], '0.0.0.0']]
+    except:
+        fullLog('\n\nCould not add own node to establish_nodes. Please check your config file.')
+        exit()
 
     for node in node_list:
         NS_assigned_to_fqdn = socket.getaddrinfo(node, 0, 0, 0, 0)
