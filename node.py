@@ -47,6 +47,9 @@ def run():
         exit()
 
     for node in node_list:
+        if node[:4] != 'www.':
+            fullLog('FQDN does not start with www. Skipping node: '+ node)
+            continue
         NS_assigned_to_fqdn = socket.getaddrinfo(node, 0, 0, 0, 0)
         count_NS_assignments = len(NS_assigned_to_fqdn)
         fullLog('Counted '+str(count_NS_assignments)+' nameservers for FQDN: '+node)
