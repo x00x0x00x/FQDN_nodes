@@ -3,10 +3,10 @@
 The node starts off with a peer list, which can be manually entered in the node_list file. 
 This can be a select few, as peers relay node_lists to eachother automatically.
 
-# Run.py
+# node.py
 
 
-Run.py currently consists out of:
+node.py currently consists out of:
 
 - getNodeList(): reads the nodes from the node_list file and returns a list of FQDN's
 - getConfig(): reads the config from the config file and returns a dict with configurations
